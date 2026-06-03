@@ -84,4 +84,11 @@ class AgendamentoModel
         $stmt->execute([':barbeiro_id' => $barbeiroId]);
         return $stmt->fetchAll();
     }
+
+    public function getUltimoClienteId(): int
+    {
+        $sql = "SELECT id FROM clientes ORDER BY id DESC LIMIT 1";
+        $stmt = $this->banco->query($sql);
+        return (int) $stmt->fetchColumn();
+    }
 }
