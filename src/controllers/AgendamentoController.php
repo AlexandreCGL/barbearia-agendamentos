@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../models/AgendamentoModel.php';
 require_once __DIR__ . '/../models/ClienteModel.php';
+require_once __DIR__ . '/../Validacao.php';
 
 class AgendamentoController
 {
@@ -27,7 +28,16 @@ class AgendamentoController
     public function criar(): void
     {
         $dados = json_decode(file_get_contents('php://input'), true);
-        
+
+        $erros = Validacao::validarAgendamento($dados);
+
+        if (!empty($erros)) {
+            http_response_code(422);
+            header('Content-Type: application/json');
+            echo json_encode(['erros' => $erros]);
+            return;
+        }
+
         $barbeiroId = $dados['barbeiro_id'];
         $nome = $dados['nome'];
         $telefone = $dados['telefone'];
@@ -35,13 +45,11 @@ class AgendamentoController
         $hora = $dados['hora'];
 
         $this->clienteModel->criar($nome, $telefone);
-
         $clienteId = $this->agendamentoModel->getUltimoClienteId();
-
         $this->agendamentoModel->criar($barbeiroId, $clienteId, $data, $hora);
 
         header('Content-Type: application/json');
-        echo json_encode (['mensagem' =>'Agendamento criado com sucesso!']);
+        echo json_encode(['mensagem' => 'Agendamento criado com sucesso!']);
     }
     public function cancelar(int $id): void
     {
@@ -50,8 +58,14 @@ class AgendamentoController
         header('Content-Type: application/json');
         echo json_encode(['mensagem' => 'Agendamento cancelado com sucesso!']);
     }
+    public function horariosDisponiveis(int $barbeiroId, string $data): void
+    {
+        $horarios = $this->agendamentoModel->listarHorariosDisponiveis($barbeiroId, $data);
 
-
-        }
+        header('Content-Type: application/json');
+        echo json_encode($horarios);
+    }
+     
+    }
 
 

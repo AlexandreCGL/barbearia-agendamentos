@@ -91,4 +91,47 @@ class AgendamentoModel
         $stmt = $this->banco->query($sql);
         return (int) $stmt->fetchColumn();
     }
+
+    public function listarHorariosDisponiveis(int $barbeiroId, string $data): array
+    {
+        $todosHorarios = [
+            '09:00',
+            '09:30',
+            '10:00',
+            '10:30',
+            '11:00',
+            '11:30',
+            '13:00',
+            '13:30',
+            '14:00',
+            '14:30',
+            '15:00',
+            '15:30',
+            '16:00',
+            '16:30',
+            '17:00',
+            '17:30',
+        ];
+
+        $sql = "SELECT hora_agendamento FROM agendamentos
+                WHERE barbeiro_id = :barbeiro_id
+                AND data_agendamento = :data
+                AND status = 'agendado'";
+
+        $stmt = $this->banco->prepare($sql);
+        $stmt->execute([
+            ':barbeiro_id' => $barbeiroId,
+            ':data' => $data,
+        ]);
+
+        $horariosOcupados = array_map(function ($hora) {
+            return substr($hora, 0, 5);
+        }, $stmt->fetchAll(PDO::FETCH_COLUMN));
+
+        $horariosDisponiveis = array_filter($todosHorarios, function ($horario) use ($horariosOcupados) {
+            return !in_array($horario, $horariosOcupados);
+        });
+
+        return array_values($horariosDisponiveis);
+    }
 }

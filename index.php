@@ -30,8 +30,15 @@ try {
         case 'agendamentos':
             $controller = new AgendamentoController($banco);
             if ($method === 'GET') {
-                $barbeiroId = $_GET['barbeiro_id'] ?? 1;
-                $controller->listarPorBarbeiro((int)$barbeiroId);
+                if (isset($_GET['barbeiro_id']) && isset($_GET['data'])) {
+                    $controller->horariosDisponiveis(
+                        (int)$_GET['barbeiro_id'],
+                        $_GET['data']
+                    );
+                } else {
+                    $barbeiroId = $_GET['barbeiro_id'] ?? 1;
+                    $controller->listarPorBarbeiro((int)$barbeiroId);
+                }
             } elseif ($method === 'POST') {
                 $controller->criar();
             }
