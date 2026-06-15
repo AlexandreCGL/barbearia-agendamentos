@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia Agendamentos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-logo">
+            <span>💈</span>
+            <div>
+                <h1>Barbearia</h1>
+                <p>Sistema de Agendamentos</p>
+            </div>
+        </div>
+        <div class="header-badge">Online</div>
+    </header>
+
+    <main>
+        <section id="formulario">
+            <div class="section-title">
+                <span>📋</span>
+                <h2>Novo Agendamento</h2>
+            </div>
+
+            <div class="campo">
+                <label for="nome">Seu nome</label>
+                <input type="text" id="nome" placeholder="Ex: João Silva">
+            </div>
+
+            <div class="campo">
+                <label for="telefone">Seu telefone</label>
+                <input type="text" id="telefone" placeholder="Ex: 13999991111">
+            </div>
+
+            <div class="campo">
+                <label for="barbeiro">Barbeiro</label>
+                <select id="barbeiro">
+                    <option value="">Carregando...</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="data">Data</label>
+                <input type="date" id="data">
+            </div>
+
+            <div class="campo">
+                <label for="horario">Horário</label>
+                <select id="horario">
+                    <option value="">Selecione uma data primeiro</option>
+                </select>
+            </div>
+
+            <button id="btn-agendar">Confirmar Agendamento</button>
+
+            <div id="mensagem"></div>
+        </section>
+
+        <section id="agendamentos">
+            <div class="section-title">
+                <span>✂️</span>
+                <h2>Agendamentos do Dia</h2>
+            </div>
+            <div id="lista-agendamentos">
+                <p>Selecione um barbeiro para ver os agendamentos.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>

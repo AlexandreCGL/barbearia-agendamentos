@@ -38,11 +38,11 @@ class AgendamentoController
             return;
         }
 
-        $barbeiroId = $dados['barbeiro_id'];
-        $nome = $dados['nome'];
-        $telefone = $dados['telefone'];
-        $data = $dados['data'];
-        $hora = $dados['hora'];
+        $barbeiroId = (int) $dados['barbeiro_id'];
+        $nome = (string) $dados['nome'];
+        $telefone = (string) $dados['telefone'];
+        $data = (string) $dados['data'];
+        $hora = (string) $dados['hora'];
 
         $this->clienteModel->criar($nome, $telefone);
         $clienteId = $this->agendamentoModel->getUltimoClienteId();
@@ -65,7 +65,4 @@ class AgendamentoController
         header('Content-Type: application/json');
         echo json_encode($horarios);
     }
-     
-    }
-
-
+}
